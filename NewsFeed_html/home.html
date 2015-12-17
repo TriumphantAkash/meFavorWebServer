@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>meFavor</title>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- for fontawesome icon css file -->
@@ -28,7 +30,7 @@
      <link href="css/theme.css" rel="stylesheet">
     <!-- main site css file -->    
     <link href="style.css" rel="stylesheet">
- 
+ 	
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -38,6 +40,19 @@
     <![endif]-->
   </head>
 <body>
+
+<script type="text/javascript">
+ 	var jq = $.noConflict();
+    jq(document).ready(function(){
+      refreshTable();
+    });
+
+    function refreshTable(){
+        jq('#parent-list1').load('getfeed_prajwal.php', function(){
+           setTimeout(refreshTable, 3000);
+        });
+    }
+   </script>
   <!-- =========================
     //////////////This Theme Design and Developed //////////////////////
     //////////// by www.wpfreeware.com======================-->
@@ -253,47 +268,8 @@
               <h2><span>News Feed as Driver</span></h2>
               <div class="latest_post_container">
               <div id="prev-button"><i class="fa fa-chevron-up"></i></div>
-              <ul class="latest_postnav" id="parent-list">
-              <?php
-					$json = file_get_contents('http://localhost:8080/Favor/work/get?compstatus=0');
-					$feedArray = json_decode($json);
-					foreach($feedArray as $feedItem){
-	 					echo '<li>
-		 						<div class="media">
-				                    <a class="media-left">
-				                      <img alt="img" src="img/user1.png">
-				                    </a>
-				                    	<div class="media-body">
-				                      		<a class="catg_title">'.$feedItem->workDescription.' requested by '.$feedItem->fname.' '.$feedItem->lname.'</a>
-										    <button type="button" class="btn btn-primary" id='.array_search($feedItem, $feedArray).'cancel'.'>cancel</button>
-										    <button type="button" class="btn btn-primary" id='.array_search($feedItem, $feedArray).'accept'.'>accept</button>
-										    <script>
-										    	function cancelAction() {
-												    alert("Hello! I am an alert box!");
-												}
-										    </script>
-				                    	</div>
-
-				                 </div>
-                  			</li>';
-					
-
-					echo '
-							<script>
-							var li = document.getElementsByTagName("li");
-
-							for(var i = 0;i<li.length;i++){
-							    li[i].addEventListener("click", myScript);
-							}
-
-							function myScript(e){
-							    alert(e.target.attributes.id.value);       
-							}
-						</script>
-					';
-				}
-					//echo '</ul>';
-				?>
+              <ul class="latest_postnav" id="parent-list1">
+              
 
               </ul>
              <div id="next-button"><i class="fa  fa-chevron-down"></i></div>
